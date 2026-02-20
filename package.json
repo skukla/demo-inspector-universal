@@ -1,6 +1,6 @@
 {
-  "name": "demo-inspector-universal",
-  "version": "1.0.0",
+  "name": "@citisignal/demo-inspector-universal",
+  "version": "1.0.0-beta.1",
   "description": "Universal demo inspector combining API Mesh source visualization and EDS block/slot detection",
   "type": "module",
   "main": "dist/demo-inspector.js",
@@ -9,6 +9,21 @@
     "dev": "node esbuild.config.js --watch",
     "test": "vitest run",
     "test:watch": "vitest"
+  },
+  "keywords": [
+    "demo",
+    "inspector",
+    "api-mesh",
+    "eds",
+    "adobe-commerce",
+    "custom-element",
+    "shadow-dom"
+  ],
+  "author": "CitiSignal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skukla/demo-inspector-universal.git"
   },
   "devDependencies": {
     "esbuild": "^0.24.0",
