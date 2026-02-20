@@ -337,7 +337,73 @@ describe('DemoInspectorElement (<demo-inspector>)', () => {
   });
 
   // -------------------------------------------------------------------------
-  // 12. Keyboard shortcut Cmd+Shift+D toggles enabled
+  // 12. modes attribute — context-aware mode availability
+  // -------------------------------------------------------------------------
+  it('should grey out EDS mode card when modes="mesh"', async () => {
+    const el = document.createElement('demo-inspector');
+    el.setAttribute('modes', 'mesh');
+    document.body.appendChild(el);
+
+    // Open settings
+    const cogBtn = shadowQuery(el, '.header-btn[data-action="settings"]');
+    cogBtn.click();
+    await flushSync();
+
+    const edsCard = Array.from(shadowQueryAll(el, '.mode-card')).find(
+      (c) => c.getAttribute('data-mode') === 'eds'
+    );
+    expect(edsCard).not.toBeNull();
+    expect(edsCard.classList.contains('disabled')).toBe(true);
+  });
+
+  it('should not switch to a disabled mode when its card is clicked', async () => {
+    const el = document.createElement('demo-inspector');
+    el.setAttribute('modes', 'mesh');
+    document.body.appendChild(el);
+
+    // Open settings
+    const cogBtn = shadowQuery(el, '.header-btn[data-action="settings"]');
+    cogBtn.click();
+    await flushSync();
+
+    // Click the disabled EDS card
+    const edsCard = Array.from(shadowQueryAll(el, '.mode-card')).find(
+      (c) => c.getAttribute('data-mode') === 'eds'
+    );
+    edsCard.click();
+    await flushSync();
+
+    expect(el.store.getState().activeMode).toBe('mesh');
+  });
+
+  it('should allow both modes when no modes attribute is set (backward compat)', async () => {
+    const el = createInspector();
+
+    // Open settings
+    const cogBtn = shadowQuery(el, '.header-btn[data-action="settings"]');
+    cogBtn.click();
+    await flushSync();
+
+    const cards = shadowQueryAll(el, '.mode-card');
+    const disabledCards = shadowQueryAll(el, '.mode-card.disabled');
+    expect(cards.length).toBe(2);
+    expect(disabledCards.length).toBe(0);
+  });
+
+  it('should reset activeMode if persisted state has an unavailable mode', async () => {
+    // Pre-seed localStorage with eds mode
+    localStorage.setItem('demo-inspector-state', JSON.stringify({ activeMode: 'eds' }));
+
+    const el = document.createElement('demo-inspector');
+    el.setAttribute('modes', 'mesh');
+    document.body.appendChild(el);
+    await flushSync();
+
+    expect(el.store.getState().activeMode).toBe('mesh');
+  });
+
+  // -------------------------------------------------------------------------
+  // 13. Keyboard shortcut Cmd+Shift+D toggles enabled
   // -------------------------------------------------------------------------
   it('should toggle enabled state on Cmd+Shift+D keyboard shortcut', async () => {
     const el = createInspector();

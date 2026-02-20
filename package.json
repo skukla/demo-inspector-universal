@@ -1,5 +1,5 @@
 {
-  "name": "@citisignal/demo-inspector-universal",
+  "name": "@demo-builder/demo-inspector",
   "version": "1.0.0-beta.1",
   "description": "Universal demo inspector combining API Mesh source visualization and EDS block/slot detection",
   "type": "module",
@@ -19,7 +19,7 @@
     "custom-element",
     "shadow-dom"
   ],
-  "author": "CitiSignal",
+  "author": "Steve Kukla",
   "license": "MIT",
   "repository": {
     "type": "git",

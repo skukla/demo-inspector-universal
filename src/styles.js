@@ -182,7 +182,12 @@ export const PANEL_STYLES = `
   font-family: inherit;
   text-align: left;
 }
-.mode-card:hover { background: #f3f4f6; border-color: #d1d5db; }
+.mode-card:hover:not(.disabled) { background: #f3f4f6; border-color: #d1d5db; }
+.mode-card.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .mode-card.active {
   background: rgba(99, 102, 241, 0.08);
   border-color: #6366f1;
@@ -306,7 +311,7 @@ export const PANEL_STYLES = `
   justify-content: space-between;
   margin-bottom: 4px;
 }
-.query-name { font-family: monospace; }
+.query-name { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
 .query-time { color: #9ca3af; }
 .query-clear {
   width: 100%;

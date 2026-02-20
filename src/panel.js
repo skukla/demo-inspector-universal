@@ -86,9 +86,26 @@ class DemoInspectorElement extends HTMLElement {
   }
 
   connectedCallback() {
+    this._enforceAvailableMode();
     this.render();
     this._unsubscribe = this.store.subscribe(() => this.render());
     this._setupKeyboardShortcuts();
+  }
+
+  /** Parse the `modes` attribute into an array of available mode IDs. */
+  _getAvailableModes() {
+    const attr = this.getAttribute('modes');
+    if (!attr) return ['mesh', 'eds'];
+    return attr.split(',').map((s) => s.trim()).filter(Boolean);
+  }
+
+  /** If persisted activeMode is not in the available set, reset to the first available. */
+  _enforceAvailableMode() {
+    const available = this._getAvailableModes();
+    const state = this.store.getState();
+    if (!available.includes(state.activeMode)) {
+      this.store.setState({ activeMode: available[0] || 'mesh' });
+    }
   }
 
   disconnectedCallback() {
@@ -172,6 +189,7 @@ class DemoInspectorElement extends HTMLElement {
   // -------------------------------------------------------------------------
 
   _renderSettingsOverlay(state) {
+    const available = this._getAvailableModes();
     const modes = [
       { id: 'mesh', icon: '&#127978;', title: 'API Mesh', desc: 'Data source highlights' },
       { id: 'eds', icon: '&#129521;', title: 'EDS Structure', desc: 'Blocks & dropin slots' },
@@ -179,8 +197,10 @@ class DemoInspectorElement extends HTMLElement {
 
     const cardsHtml = modes.map((mode) => {
       const isActive = state.activeMode === mode.id;
+      const isDisabled = !available.includes(mode.id);
+      const classes = ['mode-card', isActive && 'active', isDisabled && 'disabled'].filter(Boolean).join(' ');
       return `
-        <button class="mode-card${isActive ? ' active' : ''}" data-mode="${mode.id}">
+        <button class="${classes}" data-mode="${mode.id}"${isDisabled ? ' disabled' : ''}>
           <span class="mode-card-icon">${mode.icon}</span>
           <div>
             <div class="mode-card-title">${escapeHtml(mode.title)}</div>
@@ -499,8 +519,8 @@ class DemoInspectorElement extends HTMLElement {
       });
     }
 
-    // Mode cards
-    shadow.querySelectorAll('.mode-card[data-mode]').forEach((card) => {
+    // Mode cards (skip disabled)
+    shadow.querySelectorAll('.mode-card[data-mode]:not([disabled])').forEach((card) => {
       card.addEventListener('click', () => {
         const modeId = card.getAttribute('data-mode');
         this._handleModeSwitch(modeId);
