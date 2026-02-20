@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Inspector Universal — Test Page</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    h2 { font-size: 18px; margin: 24px 0 12px; color: #475569; }
+    h3 { font-size: 14px; margin: 16px 0 8px; color: #64748b; }
+    p { font-size: 14px; color: #64748b; margin-bottom: 16px; }
+    .section { background: white; border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid #e2e8f0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .card { background: #f8fafc; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; }
+    .card img { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; margin-bottom: 8px; background: #e2e8f0; }
+    .card h4 { font-size: 14px; margin-bottom: 4px; }
+    .card .price { color: #059669; font-weight: 600; }
+    .search-container { display: flex; gap: 8px; margin-bottom: 16px; }
+    .search-container input { flex: 1; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+    .search-container select { padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+    nav { display: flex; gap: 16px; padding: 16px 0; }
+    nav a { color: #6366f1; text-decoration: none; font-weight: 500; }
+    .swatch { width: 32px; height: 32px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+    .hidden-element { display: none; }
+    .zero-height { height: 0; overflow: hidden; }
+    .slot-visual { border-left: 3px solid #e2e8f0; padding-left: 12px; margin: 8px 0; }
+    .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- ========================== -->
+  <!-- MESH: Commerce source      -->
+  <!-- ========================== -->
+  <header data-block-name="header">
+    <nav data-inspector-source="commerce">
+      <a href="/">Home</a>
+      <a href="/products">Products</a>
+      <a href="/categories">Categories</a>
+      <a href="/about">About</a>
+    </nav>
+  </header>
+
+  <h1>Demo Inspector Universal — Test Page</h1>
+  <p>This page contains tagged elements for testing all inspector features. Open the inspector panel (Cmd+Shift+D) to explore.</p>
+
+  <!-- ========================== -->
+  <!-- MESH: Search source        -->
+  <!-- ========================== -->
+  <div class="section" data-block-name="hero">
+    <h2>Search</h2>
+    <div data-inspector-source="search" data-inspector-type="search-bar">
+      <div class="search-container">
+        <input type="text" placeholder="Search products..." />
+        <select data-inspector-source="search" data-inspector-type="sort-dropdown">
+          <option>Relevance</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================== -->
+  <!-- MESH: Catalog source       -->
+  <!-- ========================== -->
+  <div class="section" data-block-name="product-details">
+    <h2>Products</h2>
+    <div data-inspector-source="catalog" class="grid">
+      <div class="card" data-slot="ProductCard" data-slot-key="product-1">
+        <div style="width:100%;height:120px;background:#e2e8f0;border-radius:4px;margin-bottom:8px"></div>
+        <h4>Wireless Headphones</h4>
+        <p class="price">$129.99</p>
+        <div data-slot="ProductCard/Actions" data-slot-key="actions-1">
+          <button data-inspector-source="catalog" style="padding:8px 16px;background:#6366f1;color:white;border:none;border-radius:6px;cursor:pointer">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="card" data-slot="ProductCard" data-slot-key="product-2">
+        <div style="width:100%;height:120px;background:#e2e8f0;border-radius:4px;margin-bottom:8px"></div>
+        <h4>Smart Watch</h4>
+        <p class="price">$299.99</p>
+        <div data-slot="ProductCard/Actions" data-slot-key="actions-2">
+          <button data-inspector-source="catalog" style="padding:8px 16px;background:#6366f1;color:white;border:none;border-radius:6px;cursor:pointer">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="card" data-slot="ProductCard" data-slot-key="product-3">
+        <div style="width:100%;height:120px;background:#e2e8f0;border-radius:4px;margin-bottom:8px"></div>
+        <h4>Bluetooth Speaker</h4>
+        <p class="price">$79.99</p>
+        <div data-slot="ProductCard/Actions" data-slot-key="actions-3">
+          <button data-inspector-source="catalog" style="padding:8px 16px;background:#6366f1;color:white;border:none;border-radius:6px;cursor:pointer">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color swatches (mesh special handling) -->
+    <h3>Color Options</h3>
+    <div data-inspector-source="catalog">
+      <span class="swatch" data-inspector-field="color-swatch" data-inspector-value="#ef4444" style="background:#ef4444"></span>
+      <span class="swatch" data-inspector-field="color-swatch" data-inspector-value="#3b82f6" style="background:#3b82f6"></span>
+      <span class="swatch" data-inspector-field="color-swatch" data-inspector-value="#22c55e" style="background:#22c55e"></span>
+    </div>
+  </div>
+
+  <!-- ========================== -->
+  <!-- EDS: Nested blocks + slots -->
+  <!-- ========================== -->
+  <div class="section" data-block-name="product-recommendations">
+    <h2>Recommended For You</h2>
+    <div data-slot="RecommendationSlot" data-slot-key="recs-main">
+      <div class="slot-visual">
+        <p>Recommendation carousel goes here</p>
+
+        <!-- Nested slot inside a slot -->
+        <div data-slot="RecommendationSlot/Fallback" data-slot-key="recs-fallback">
+          <div class="slot-visual">
+            <p>Fallback content for empty recommendations</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nested block inside a slot -->
+      <div data-block-name="promo-banner">
+        <div style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:16px;border-radius:8px;margin-top:8px">
+          Free shipping on orders over $50
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================== -->
+  <!-- EDS: Standalone slots      -->
+  <!-- ========================== -->
+  <div class="section">
+    <h2>Standalone Slots (outside blocks)</h2>
+    <div data-slot="GlobalBanner" data-slot-key="global-banner-1">
+      <div class="slot-visual">
+        <p>This slot is not inside any block — appears under "Standalone Slots"</p>
+      </div>
+    </div>
+    <div data-slot="NewsletterSignup" data-slot-key="newsletter-1">
+      <div class="slot-visual">
+        <p>Newsletter signup standalone slot</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================== -->
+  <!-- Hidden elements (filtered) -->
+  <!-- ========================== -->
+  <div class="hidden-element" data-block-name="hidden-block">
+    <p>This block is display:none and should be filtered out</p>
+  </div>
+
+  <div class="zero-height" data-block-name="zero-height-block">
+    <!-- No content, zero height -->
+  </div>
+
+  <div data-slot="InvisibleSlot" data-slot-key="invisible-1" style="display:none">
+    <p>This slot should be filtered out</p>
+  </div>
+
+  <!-- ========================== -->
+  <!-- Commerce source elements   -->
+  <!-- ========================== -->
+  <div class="section" data-block-name="breadcrumbs">
+    <div data-inspector-source="commerce" style="font-size:12px;color:#94a3b8">
+      Home &gt; Products &gt; Electronics
+    </div>
+  </div>
+
+  <!-- ========================== -->
+  <!-- Footer                     -->
+  <!-- ========================== -->
+  <footer data-block-name="footer">
+    <div class="footer">
+      <div data-inspector-source="commerce">
+        &copy; 2024 Demo Store. Powered by Adobe Commerce.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================== -->
+  <!-- Inspector + Scripts        -->
+  <!-- ========================== -->
+  <script type="module">
+    import { createGraphQLFetcherWithTracking } from '../dist/demo-inspector.js';
+
+    // Mock GraphQL fetcher that returns fake data
+    async function mockFetcher(query) {
+      await new Promise((r) => setTimeout(r, Math.random() * 500 + 50));
+
+      const name = query.match(/query\s+(\w+)/)?.[1] || 'Anonymous';
+
+      if (name.includes('Product') || name.includes('Catalog')) {
+        return { Citisignal_productCards: [{ id: 1, name: 'Widget' }] };
+      }
+      if (name.includes('Search') || name.includes('Facet')) {
+        return { facets: [{ name: 'Color', values: ['Red', 'Blue'] }] };
+      }
+      return { categories: [{ id: 1, name: 'Electronics' }] };
+    }
+
+    // Create tracked fetcher
+    const trackedFetch = createGraphQLFetcherWithTracking(mockFetcher);
+
+    // Simulate some queries on page load
+    async function simulateQueries() {
+      await trackedFetch('query GetNavigation { navigation { items { name } } }');
+      await trackedFetch('query GetProductCards { Citisignal_productCards { id name } }');
+      await trackedFetch('query SearchProducts { facets { name values } }');
+      await trackedFetch('query GetProductDetail { Citisignal_productDetail { sku name } }');
+      await trackedFetch('query GetBreadcrumbs { breadcrumbs { category_name } }');
+    }
+
+    // Run simulated queries after a short delay
+    setTimeout(simulateQueries, 1000);
+  </script>
+
+  <script type="module" src="../dist/demo-inspector.js"></script>
+  <demo-inspector></demo-inspector>
+
+</body>
+</html>

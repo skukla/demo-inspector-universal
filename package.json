@@ -1,0 +1,18 @@
+{
+  "name": "demo-inspector-universal",
+  "version": "1.0.0",
+  "description": "Universal demo inspector combining API Mesh source visualization and EDS block/slot detection",
+  "type": "module",
+  "main": "dist/demo-inspector.js",
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "dev": "node esbuild.config.js --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "jsdom": "^25.0.0",
+    "vitest": "^2.1.0"
+  }
+}
